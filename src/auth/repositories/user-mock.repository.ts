@@ -11,8 +11,8 @@ export class UserMockRepository implements UserRepository {
 		});
 	}
 
-	getByEmail(email: string): Promise<User> {
+	getByEmail(email: string): Promise<User | null> {
 		const array = [userMockData];
-		return Promise.resolve(array.find((a) => a.email === email));
+		return Promise.resolve(array.find((a) => a.email === email) || null);
 	}
 }

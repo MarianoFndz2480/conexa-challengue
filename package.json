@@ -70,15 +70,22 @@
 			"json",
 			"ts"
 		],
-		"rootDir": "src",
+		"rootDir": ".",
 		"testRegex": ".*\\.spec\\.ts$",
 		"transform": {
 			"^.+\\.(t|j)s$": "ts-jest"
 		},
 		"collectCoverageFrom": [
-			"**/*.(t|j)s"
+			"src/**/*.(t|j)s"
 		],
-		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
+		"coverageDirectory": "./coverage",
+		"testEnvironment": "node",
+		"moduleNameMapper": {
+			"^@app/(.*)$": "<rootDir>/src/$1",
+			"^@auth/(.*)$": "<rootDir>/src/auth/$1",
+			"^@utils/(.*)$": "<rootDir>/src/utils/$1",
+			"^@test/(.*)$": "<rootDir>/test/$1",
+			"^@prisma/(.*)$": "<rootDir>/src/prisma/$1"
+		}
 	}
 }

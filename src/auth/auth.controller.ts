@@ -3,12 +3,25 @@ import { AuthFacade } from './facades/auth.facade';
 import { AccessTokenDTO, CredentialsDto } from './dtos/auth.dto';
 import { UnauthorizedError } from './errors/auth.errors';
 import { UserAlreadyExistsError } from './errors/user.errors';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+	ApiAuthTokenResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiUnauthorizedResponse,
+} from '../decorators/api-responses.decorators';
 
-@Controller()
+@ApiTags('auth')
+@Controller('auth')
 export class AuthController {
 	constructor(private readonly authFacade: AuthFacade) {}
 
-	@Post('/login')
+	@ApiOperation({ summary: 'User login' })
+	@ApiAuthTokenResponse()
+	@ApiBadRequestResponse()
+	@ApiUnauthorizedResponse()
+	@ApiInternalServerErrorResponse()
+	@Post('login')
 	async login(@Body() inputUser: CredentialsDto): Promise<AccessTokenDTO> {
 		try {
 			const result = await this.authFacade.login(inputUser);
@@ -19,7 +32,22 @@ export class AuthController {
 		}
 	}
 
-	@Post('/signup')
+	@ApiOperation({ summary: 'User registration' })
+	@ApiAuthTokenResponse()
+	@ApiBadRequestResponse()
+	@ApiUnauthorizedResponse()
+	@ApiInternalServerErrorResponse()
+	@ApiResponse({
+		status: 409,
+		description: 'User already exists',
+		schema: {
+			example: {
+				message: 'Conflict',
+				statusCode: 409,
+			},
+		},
+	})
+	@Post('register')
 	async signup(@Body() inputUser: CredentialsDto): Promise<AccessTokenDTO> {
 		try {
 			const result = await this.authFacade.signup(inputUser);

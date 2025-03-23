@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../services/user.service';
 import { UnauthorizedError } from '../errors/auth.errors';
-import { AccessTokenDTO, CredentialsDto } from '../dtos/auth.dto';
+import { AccessTokenDTO, CredentialsDTO } from '../dtos/auth.dto';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthFacade {
 		return payload;
 	}
 
-	async login(credentials: CredentialsDto): Promise<AccessTokenDTO> {
+	async login(credentials: CredentialsDTO): Promise<AccessTokenDTO> {
 		const user = await this.userService.getByEmail(credentials.email);
 
 		if (!user) throw new UnauthorizedError();
@@ -32,7 +32,7 @@ export class AuthFacade {
 		return this.generateToken(user);
 	}
 
-	async signup(credentials: CredentialsDto): Promise<AccessTokenDTO> {
+	async signup(credentials: CredentialsDTO): Promise<AccessTokenDTO> {
 		const user = await this.userService.createUser(credentials);
 		return this.generateToken(user);
 	}

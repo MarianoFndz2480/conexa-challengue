@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { HashUtil } from '../../utils/hash';
 import { User } from '../entities/user.entity';
-import { CredentialsDto } from '../dtos/auth.dto';
+import { CredentialsDTO } from '../dtos/auth.dto';
 import { UserAlreadyExistsError } from '../errors/user.errors';
 import { Role } from '../enums/role.enum';
 
@@ -10,7 +10,7 @@ import { Role } from '../enums/role.enum';
 export class UserService {
 	constructor(@Inject('UserRepository') private readonly userRepository: UserRepository) {}
 
-	async createUser(inputUser: CredentialsDto): Promise<User> {
+	async createUser(inputUser: CredentialsDTO): Promise<User> {
 		const user = await this.userRepository.getByEmail(inputUser.email);
 
 		if (user) throw new UserAlreadyExistsError();

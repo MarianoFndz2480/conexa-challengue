@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedError } from '@auth/errors/auth.errors';
 import { UserAlreadyExistsError } from '@auth/errors/user.errors';
 import { userMockData } from '@auth/mock-data/user.mock-data';
-import { CredentialsDto } from '@auth/dtos/auth.dto';
+import { CredentialsDTO } from '@auth/dtos/auth.dto';
 
 describe('AuthFacade tests:', () => {
 	let authFacade: AuthFacade;
@@ -65,7 +65,7 @@ describe('AuthFacade tests:', () => {
 
 	describe('login method:', () => {
 		it('Should return access token if user is valid', async () => {
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: userMockData.email,
 				password: 'password123',
 			};
@@ -78,7 +78,7 @@ describe('AuthFacade tests:', () => {
 		it('Should throw UnauthorizedError if user is invalid', async () => {
 			isValidUserSpy.mockResolvedValue(false);
 
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: 'invalid@example.com',
 				password: 'wrongpass',
 			};
@@ -89,7 +89,7 @@ describe('AuthFacade tests:', () => {
 
 	describe('signup method:', () => {
 		it('Should return access token if user is created successfully', async () => {
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: userMockData.email,
 				password: 'password',
 			};
@@ -102,7 +102,7 @@ describe('AuthFacade tests:', () => {
 		it('Should throw UserAlreadyExistsError if user already exists', async () => {
 			createUserSpy.mockRejectedValue(new UserAlreadyExistsError());
 
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: userMockData.email,
 				password: 'password123',
 			};

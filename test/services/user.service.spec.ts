@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '@auth/services/user.service';
 import { UserRepository } from '@auth/repositories/user.repository';
 import { HashUtil } from '@utils/hash';
-import { CredentialsDto } from '@auth/dtos/auth.dto';
+import { CredentialsDTO } from '@auth/dtos/auth.dto';
 import { UserAlreadyExistsError } from '@auth/errors/user.errors';
 import { userMockData } from '@auth/mock-data/user.mock-data';
 import { UserMockRepository } from '@auth/repositories/user-mock.repository';
@@ -36,7 +36,7 @@ describe('UserService tests:', () => {
 			jest.spyOn(userRepository, 'create');
 			jest.spyOn(HashUtil, 'generateHash').mockResolvedValue(userMockData.password);
 
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: 'nonexistent@email.com',
 				password: 'password123',
 			};
@@ -51,7 +51,7 @@ describe('UserService tests:', () => {
 		});
 
 		it('Should throw UserAlreadyExistsError if email already exists', async () => {
-			const credentials: CredentialsDto = {
+			const credentials: CredentialsDTO = {
 				email: userMockData.email,
 				password: 'password123',
 			};

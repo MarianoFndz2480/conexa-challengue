@@ -1,6 +1,6 @@
 import { Body, ConflictException, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthFacade } from './facades/auth.facade';
-import { AccessTokenDTO, CredentialsDto } from './dtos/auth.dto';
+import { AccessTokenDTO, CredentialsDTO } from './dtos/auth.dto';
 import { UnauthorizedError } from './errors/auth.errors';
 import { UserAlreadyExistsError } from './errors/user.errors';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -22,7 +22,7 @@ export class AuthController {
 	@ApiUnauthorizedResponse()
 	@ApiInternalServerErrorResponse()
 	@Post('login')
-	async login(@Body() inputUser: CredentialsDto): Promise<AccessTokenDTO> {
+	async login(@Body() inputUser: CredentialsDTO): Promise<AccessTokenDTO> {
 		try {
 			const result = await this.authFacade.login(inputUser);
 			return result;
@@ -48,7 +48,7 @@ export class AuthController {
 		},
 	})
 	@Post('register')
-	async signup(@Body() inputUser: CredentialsDto): Promise<AccessTokenDTO> {
+	async signup(@Body() inputUser: CredentialsDTO): Promise<AccessTokenDTO> {
 		try {
 			const result = await this.authFacade.signup(inputUser);
 			return result;

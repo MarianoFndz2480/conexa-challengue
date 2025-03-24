@@ -21,6 +21,7 @@
       "@app/*": ["src/*"],
       "@auth/*": ["src/auth/*"],
       "@common/*": ["src/common/*"],
+      "@movies/*": ["src/movies/*"],
       "@utils/*": ["src/utils/*"],
       "@test/*": ["test/*"],
       "@prisma/*": ["src/prisma/*"]

@@ -20,6 +20,7 @@
     "paths": {
       "@app/*": ["src/*"],
       "@auth/*": ["src/auth/*"],
+      "@common/*": ["src/common/*"],
       "@utils/*": ["src/utils/*"],
       "@test/*": ["test/*"],
       "@prisma/*": ["src/prisma/*"]

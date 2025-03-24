@@ -3,7 +3,7 @@ import { UserService } from '@auth/services/user.service';
 import { UserRepository } from '@auth/repositories/user.repository';
 import { HashUtil } from '@utils/hash';
 import { CredentialsDTO } from '@auth/dtos/auth.dto';
-import { UserAlreadyExistsError } from '@auth/errors/user.errors';
+import { UserAlreadyExistsError } from '@auth/errors/user.error';
 import { userMockData } from '@auth/mock-data/user.mock-data';
 import { UserMockRepository } from '@auth/repositories/user-mock.repository';
 import { Role } from '@auth/enums/role.enum';

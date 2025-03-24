@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../services/user.service';
-import { UnauthorizedError } from '../errors/auth.errors';
-import { AccessTokenDTO, CredentialsDTO } from '../dtos/auth.dto';
-import { User } from '../entities/user.entity';
+import { UserService } from '@auth/services/user.service';
+import { UnauthorizedError } from '@auth/errors/auth.error';
+import { AccessTokenDTO, CredentialsDTO } from '@auth/dtos/auth.dto';
+import { User } from '@auth/entities/user.entity';
 
 @Injectable()
 export class AuthFacade {

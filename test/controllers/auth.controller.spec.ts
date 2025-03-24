@@ -4,8 +4,8 @@ import { AuthController } from '@auth/auth.controller';
 import { AuthFacade } from '@auth/facades/auth.facade';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { App } from 'supertest/types';
-import { UnauthorizedError } from '@auth/errors/auth.errors';
-import { UserAlreadyExistsError } from '@auth/errors/user.errors';
+import { UnauthorizedError } from '@auth/errors/auth.error';
+import { UserAlreadyExistsError } from '@auth/errors/user.error';
 
 describe('AuthController integration tests:', () => {
 	let app: INestApplication;

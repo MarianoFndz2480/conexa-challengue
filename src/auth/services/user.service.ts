@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UserRepository } from '../repositories/user.repository';
-import { HashUtil } from '../../utils/hash';
-import { User } from '../entities/user.entity';
-import { CredentialsDTO } from '../dtos/auth.dto';
-import { UserAlreadyExistsError } from '../errors/user.errors';
-import { Role } from '../enums/role.enum';
+import { UserRepository } from '@auth/repositories/user.repository';
+import { HashUtil } from '@utils/hash';
+import { User } from '@auth/entities/user.entity';
+import { CredentialsDTO } from '@auth/dtos/auth.dto';
+import { UserAlreadyExistsError } from '@auth/errors/user.error';
+import { Role } from '@auth/enums/role.enum';
 
 @Injectable()
 export class UserService {

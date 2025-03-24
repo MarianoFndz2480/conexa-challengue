@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthFacade } from '@auth/facades/auth.facade';
 import { UserService } from '@auth/services/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { UnauthorizedError } from '@auth/errors/auth.errors';
-import { UserAlreadyExistsError } from '@auth/errors/user.errors';
+import { UnauthorizedError } from '@auth/errors/auth.error';
+import { UserAlreadyExistsError } from '@auth/errors/user.error';
 import { userMockData } from '@auth/mock-data/user.mock-data';
 import { CredentialsDTO } from '@auth/dtos/auth.dto';
 

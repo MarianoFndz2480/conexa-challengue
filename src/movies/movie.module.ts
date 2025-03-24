@@ -6,10 +6,19 @@ import { PrismaModule } from '@prisma/prisma.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
 import { SyncMoviesCron } from './application/crons/syncMovies.cron';
+import { SWAPIExternalMovieRepository } from './infrastructure/repositories/swapi-external-movie.repository';
 
 @Module({
 	imports: [PrismaModule, ScheduleModule.forRoot(), HttpModule],
 	controllers: [MovieController],
-	providers: [MovieService, { provide: 'MovieRepository', useClass: MoviePrismaRepository }, SyncMoviesCron],
+	providers: [
+		MovieService,
+		{ provide: 'MovieRepository', useClass: MoviePrismaRepository },
+		{
+			provide: 'ExternalMovieRepository',
+			useClass: SWAPIExternalMovieRepository,
+		},
+		SyncMoviesCron,
+	],
 })
 export class MovieModule {}

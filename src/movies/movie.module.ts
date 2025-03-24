@@ -6,7 +6,7 @@ import { PrismaModule } from '@prisma/prisma.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
 import { SyncMoviesCron } from './application/crons/syncMovies.cron';
-import { SWAPIExternalMovieRepository } from './infrastructure/repositories/swapi-external-movie.repository';
+import { SWAPIExternalMovieRepository } from './infrastructure/repositories/external-movie-swapi.repository';
 
 @Module({
 	imports: [PrismaModule, ScheduleModule.forRoot(), HttpModule],

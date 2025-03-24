@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { HashUtil } from '../../utils/hash';
 import { Role } from '../../auth/enums/role.enum';
 
 @Injectable()
 export class AdminSeeder {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: ConsoleLogger,
+	) {
+		this.logger.setContext(AdminSeeder.name);
+	}
 
 	async seed() {
 		const adminExists = await this.prisma.user.findFirst({
@@ -25,9 +30,9 @@ export class AdminSeeder {
 					role: Role.ADMIN,
 				},
 			});
-			console.log('Admin user created successfully');
+			this.logger.log('Admin user created successfully');
 		} else {
-			console.log('Admin user already exists');
+			this.logger.log('Admin user already exists');
 		}
 	}
 }

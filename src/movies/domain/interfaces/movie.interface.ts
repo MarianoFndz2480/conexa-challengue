@@ -14,6 +14,5 @@ export interface UpdateMovieProps {
 }
 
 export interface UpdateMovieRepository extends UpdateMovieProps {
-	updatedAt?: string;
 	deletedAt?: string;
 }

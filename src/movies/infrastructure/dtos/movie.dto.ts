@@ -38,11 +38,11 @@ export class MovieResponseDTO extends CreateMovieDTO {
 
 	@ApiProperty({ example: '2024-01-01T00:00:00.000Z' })
 	@IsDateString()
-	createdAt: string;
+	createdAt: string | Date;
 
 	@ApiProperty({ example: '2024-01-01T00:00:00.000Z' })
 	@IsDateString()
-	updatedAt: string;
+	updatedAt: string | Date | null;
 }
 
 export class UpdateMovieDTO extends PartialType(

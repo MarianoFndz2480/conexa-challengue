@@ -22,7 +22,7 @@ export class MovieService {
 
 	async update(id: string, movieToUpdate: UpdateMovieRepository): Promise<Movie> {
 		await this.validateMovie(id);
-		return this.movieRepository.update(id, { ...movieToUpdate, updatedAt: new Date().toISOString() });
+		return this.movieRepository.update(id, movieToUpdate);
 	}
 
 	async delete(id: string): Promise<void> {

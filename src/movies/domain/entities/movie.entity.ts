@@ -7,7 +7,7 @@ export interface Movie {
 	producer: string;
 	releaseDate: string;
 	url: string;
-	createdAt: string;
-	updatedAt: string | null;
-	deletedAt: string | null;
+	createdAt: Date | string;
+	updatedAt: Date | string;
+	deletedAt: Date | string | null;
 }

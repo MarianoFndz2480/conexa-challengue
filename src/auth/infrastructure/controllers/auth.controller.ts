@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { AuthFacade } from '@auth/facades/auth.facade';
-import { AccessTokenDTO, CredentialsDTO } from '@auth/dtos/auth.dto';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { AuthFacade } from '@app/auth/application/facades/auth.facade';
+import { AccessTokenDTO, CredentialsDTO } from '@app/auth/infrastructure/dtos/auth.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	ApiAuthTokenResponse,
@@ -15,6 +15,7 @@ export class AuthController {
 	constructor(private readonly authFacade: AuthFacade) {}
 
 	@ApiOperation({ summary: 'User login' })
+	@HttpCode(HttpStatus.OK)
 	@ApiAuthTokenResponse()
 	@ApiBadRequestResponse()
 	@ApiUnauthorizedResponse()
@@ -25,6 +26,7 @@ export class AuthController {
 	}
 
 	@ApiOperation({ summary: 'User registration' })
+	@HttpCode(HttpStatus.CREATED)
 	@ApiAuthTokenResponse()
 	@ApiBadRequestResponse()
 	@ApiUnauthorizedResponse()
@@ -39,7 +41,7 @@ export class AuthController {
 			},
 		},
 	})
-	@Post('register')
+	@Post('signup')
 	async signup(@Body() inputUser: CredentialsDTO): Promise<AccessTokenDTO> {
 		return this.authFacade.signup(inputUser);
 	}

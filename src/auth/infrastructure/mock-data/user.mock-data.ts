@@ -1,4 +1,4 @@
-import { Role } from '../enums/role.enum';
+import { Role } from '@app/auth/domain/enums/role.enum';
 
 export const userMockData = {
 	id: '2978a530-1d00-4861-9858-10dd1ab32e7e',

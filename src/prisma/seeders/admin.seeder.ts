@@ -1,7 +1,7 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { HashUtil } from '../../utils/hash';
-import { Role } from '../../auth/enums/role.enum';
+import { PrismaService } from '@prisma/prisma.service';
+import { HashUtil } from '@utils/hash';
+import { Role } from '@auth/domain/enums/role.enum';
 
 @Injectable()
 export class AdminSeeder {

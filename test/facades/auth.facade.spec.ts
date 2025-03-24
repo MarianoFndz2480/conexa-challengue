@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthFacade } from '@auth/facades/auth.facade';
-import { UserService } from '@auth/services/user.service';
+import { AuthFacade } from '@app/auth/application/facades/auth.facade';
+import { UserService } from '@app/auth/application/services/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { UnauthorizedError } from '@auth/errors/auth.error';
-import { UserAlreadyExistsError } from '@auth/errors/user.error';
-import { userMockData } from '@auth/mock-data/user.mock-data';
-import { CredentialsDTO } from '@auth/dtos/auth.dto';
+import { UnauthorizedError } from '@app/auth/domain/errors/auth.error';
+import { UserAlreadyExistsError } from '@app/auth/domain/errors/user.error';
+import { userMockData } from '@auth/infrastructure/mock-data/user.mock-data';
+import { CredentialsDTO } from '@app/auth/infrastructure/dtos/auth.dto';
 
 describe('AuthFacade tests:', () => {
 	let authFacade: AuthFacade;

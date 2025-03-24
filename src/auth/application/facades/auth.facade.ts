@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '@auth/services/user.service';
-import { UnauthorizedError } from '@auth/errors/auth.error';
-import { AccessTokenDTO, CredentialsDTO } from '@auth/dtos/auth.dto';
-import { User } from '@auth/entities/user.entity';
+import { UserService } from '@app/auth/application/services/user.service';
+import { UnauthorizedError } from '@app/auth/domain/errors/auth.error';
+import { AccessTokenDTO } from '@app/auth/infrastructure/dtos/auth.dto';
+import { User } from '@auth/domain/entities/user.entity';
+import { Credentials } from '../../domain/interfaces/auth.interface';
 
 @Injectable()
 export class AuthFacade {
@@ -20,7 +21,7 @@ export class AuthFacade {
 		return payload;
 	}
 
-	async login(credentials: CredentialsDTO): Promise<AccessTokenDTO> {
+	async login(credentials: Credentials): Promise<AccessTokenDTO> {
 		const user = await this.userService.getByEmail(credentials.email);
 
 		if (!user) throw new UnauthorizedError();
@@ -32,7 +33,7 @@ export class AuthFacade {
 		return this.generateToken(user);
 	}
 
-	async signup(credentials: CredentialsDTO): Promise<AccessTokenDTO> {
+	async signup(credentials: Credentials): Promise<AccessTokenDTO> {
 		const user = await this.userService.createUser(credentials);
 		return this.generateToken(user);
 	}

@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UserRepository } from '@auth/repositories/user.repository';
+import { UserRepository } from '@app/auth/domain/repositories/user.repository';
 import { HashUtil } from '@utils/hash';
-import { User } from '@auth/entities/user.entity';
-import { CredentialsDTO } from '@auth/dtos/auth.dto';
-import { UserAlreadyExistsError } from '@auth/errors/user.error';
-import { Role } from '@auth/enums/role.enum';
+import { User } from '@auth/domain/entities/user.entity';
+import { UserAlreadyExistsError } from '@app/auth/domain/errors/user.error';
+import { Role } from '@app/auth/domain/enums/role.enum';
+import { Credentials } from '../../domain/interfaces/auth.interface';
 
 @Injectable()
 export class UserService {
 	constructor(@Inject('UserRepository') private readonly userRepository: UserRepository) {}
 
-	async createUser(inputUser: CredentialsDTO): Promise<User> {
+	async createUser(inputUser: Credentials): Promise<User> {
 		const user = await this.userRepository.getByEmail(inputUser.email);
 
 		if (user) throw new UserAlreadyExistsError();

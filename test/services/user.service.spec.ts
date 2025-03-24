@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from '@auth/services/user.service';
-import { UserRepository } from '@auth/repositories/user.repository';
+import { UserService } from '@app/auth/application/services/user.service';
+import { UserRepository } from '@app/auth/domain/repositories/user.repository';
 import { HashUtil } from '@utils/hash';
-import { CredentialsDTO } from '@auth/dtos/auth.dto';
-import { UserAlreadyExistsError } from '@auth/errors/user.error';
-import { userMockData } from '@auth/mock-data/user.mock-data';
-import { UserMockRepository } from '@auth/repositories/user-mock.repository';
-import { Role } from '@auth/enums/role.enum';
+import { CredentialsDTO } from '@app/auth/infrastructure/dtos/auth.dto';
+import { UserAlreadyExistsError } from '@app/auth/domain/errors/user.error';
+import { userMockData } from '@auth/infrastructure/mock-data/user.mock-data';
+import { UserMockRepository } from '@app/auth/infrastructure/repositories/user-mock.repository';
+import { Role } from '@app/auth/domain/enums/role.enum';
 
 jest.mock('@utils/hash');
 

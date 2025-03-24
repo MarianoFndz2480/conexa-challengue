@@ -1,5 +1,5 @@
-import { JwtStrategy } from '@auth/strategies/jwt.strategy';
-import { AuthFacade } from '@auth/facades/auth.facade';
+import { JwtStrategy } from '@auth/infrastructure/strategies/jwt.strategy';
+import { AuthFacade } from '@app/auth/application/facades/auth.facade';
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 

@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AuthController } from '@auth/auth.controller';
-import { AuthFacade } from '@auth/facades/auth.facade';
+import { AuthController } from '@app/auth/infrastructure/controllers/auth.controller';
+import { AuthFacade } from '@app/auth/application/facades/auth.facade';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { App } from 'supertest/types';
-import { UnauthorizedError } from '@auth/errors/auth.error';
-import { UserAlreadyExistsError } from '@auth/errors/user.error';
+import { UnauthorizedError } from '@app/auth/domain/errors/auth.error';
+import { UserAlreadyExistsError } from '@app/auth/domain/errors/user.error';
+import { ErrorInterceptor } from '@common/interceptors/error.interceptor';
 
 describe('AuthController integration tests:', () => {
 	let app: INestApplication;
@@ -31,6 +32,7 @@ describe('AuthController integration tests:', () => {
 
 		app = moduleFixture.createNestApplication();
 		app.useGlobalPipes(new ValidationPipe());
+		app.useGlobalInterceptors(new ErrorInterceptor());
 		await app.init();
 
 		authFacade = moduleFixture.get<AuthFacade>(AuthFacade);
@@ -49,10 +51,10 @@ describe('AuthController integration tests:', () => {
 	describe('/login (POST)', () => {
 		it('Should return an access token for valid user', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/login')
-				.send({ email: 'test@example.com', password: 'password123' });
+				.post('/auth/login')
+				.send({ email: 'user1@example.com', password: 'password123' });
 
-			expect(response.status).toBe(201);
+			expect(response.status).toBe(200);
 			expect(response.body).toEqual({ accessToken: 'valid_token' });
 		});
 
@@ -60,7 +62,7 @@ describe('AuthController integration tests:', () => {
 			loginSpy.mockRejectedValue(new UnauthorizedError());
 
 			const response = await request(app.getHttpServer() as App)
-				.post('/login')
+				.post('/auth/login')
 				.send({ email: 'invalid@example.com', password: 'wrongpassword' });
 
 			expect(response.status).toBe(401);
@@ -68,7 +70,7 @@ describe('AuthController integration tests:', () => {
 
 		it('Should return 400 Bad Request for missing email', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/login')
+				.post('/auth/login')
 				.send({ password: 'password123' });
 
 			expect(response.status).toBe(400);
@@ -76,7 +78,7 @@ describe('AuthController integration tests:', () => {
 
 		it('Should return 400 Bad Request for missing password', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/login')
+				.post('/auth/login')
 				.send({ email: 'test@example.com' });
 
 			expect(response.status).toBe(400);
@@ -86,7 +88,7 @@ describe('AuthController integration tests:', () => {
 	describe('/signup (POST)', () => {
 		it('Should return an access token for successful signup', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/signup')
+				.post('/auth/signup')
 				.send({ email: 'new@example.com', password: 'password123' });
 
 			expect(response.status).toBe(201);
@@ -97,7 +99,7 @@ describe('AuthController integration tests:', () => {
 			signUpSpy.mockRejectedValue(new UserAlreadyExistsError());
 
 			const response = await request(app.getHttpServer() as App)
-				.post('/signup')
+				.post('/auth/signup')
 				.send({ email: 'existing@example.com', password: 'password123' });
 
 			expect(response.status).toBe(409);
@@ -105,7 +107,7 @@ describe('AuthController integration tests:', () => {
 
 		it('Should return 400 Bad Request for invalid email format', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/signup')
+				.post('/auth/signup')
 				.send({ email: 'invalid-email', password: 'password123' });
 
 			expect(response.status).toBe(400);
@@ -113,7 +115,7 @@ describe('AuthController integration tests:', () => {
 
 		it('Should return 400 Bad Request for short password', async () => {
 			const response = await request(app.getHttpServer() as App)
-				.post('/signup')
+				.post('/auth/signup')
 				.send({ email: 'test@example.com', password: '123' });
 
 			expect(response.status).toBe(400);

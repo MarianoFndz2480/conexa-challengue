@@ -57,9 +57,8 @@ describe('AuthFacade tests:', () => {
 			getByEmailSpy.mockResolvedValue(null);
 
 			const payload = { sub: 'nonexistent@example.com' };
-			const result = await authFacade.validateUser(payload);
 
-			expect(result).toBeNull();
+			await expect(authFacade.validateUser(payload)).rejects.toThrow(UnauthorizedError);
 		});
 	});
 

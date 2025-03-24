@@ -2,6 +2,7 @@ import { JwtStrategy } from '@auth/infrastructure/strategies/jwt.strategy';
 import { AuthFacade } from '@app/auth/application/facades/auth.facade';
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Role } from '@auth/domain/enums/role.enum';
 
 describe('JwtStrategy tests:', () => {
 	let jwtStrategy: JwtStrategy;
@@ -26,17 +27,21 @@ describe('JwtStrategy tests:', () => {
 
 	describe('validate method:', () => {
 		it('Should return user payload if validation succeeds', async () => {
-			const payload = { sub: 'user@example.com' };
+			const email = 'user@example.com';
+			const role = Role.USER;
+			const payload = { sub: email, role };
+
 			jest.spyOn(authFacade, 'validateUser').mockResolvedValue(payload);
 
 			const result = await jwtStrategy.validate(payload);
-			expect(result).toEqual(payload);
+			expect(result).toEqual({ email, role });
 			expect(authFacade.validateUser).toHaveBeenCalledWith(payload);
 		});
 
 		it('Should throw UnauthorizedException if validation fails', async () => {
-			const payload = { sub: 'invalid@example.com' };
-			jest.spyOn(authFacade, 'validateUser').mockResolvedValue(null);
+			const payload = { sub: 'invalid@example.com', role: Role.USER };
+
+			jest.spyOn(authFacade, 'validateUser').mockRejectedValue(new UnauthorizedException());
 
 			await expect(jwtStrategy.validate(payload)).rejects.toThrow(UnauthorizedException);
 			expect(authFacade.validateUser).toHaveBeenCalledWith(payload);

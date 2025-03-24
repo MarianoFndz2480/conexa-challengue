@@ -18,15 +18,19 @@ import { MovieService } from '@movies/application/services/movie.service';
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
 	ApiBadRequestResponse,
+	ApiForbiddenResponse,
 	ApiInternalServerErrorResponse,
 	ApiMovieNotFoundResponse,
 	ApiUnauthorizedResponse,
 	ApiUUIDParam,
 } from '@common/decorators/api-responses.decorators';
+import { RolesGuard } from '@auth/infrastructure/guards/roles.guard';
+import { Role } from '@auth/domain/enums/role.enum';
+import { Roles } from '@common/decorators/roles.decorator';
 
 @Controller()
 @ApiTags('movies')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class MovieController {
 	constructor(private readonly movieService: MovieService) {}
@@ -39,13 +43,17 @@ export class MovieController {
 		description: 'The movie has been successfully created.',
 	})
 	@ApiBadRequestResponse()
+	@ApiUnauthorizedResponse()
+	@ApiForbiddenResponse()
 	@ApiInternalServerErrorResponse()
+	@Roles(Role.ADMIN)
 	async createMovie(@Body() inputMovie: CreateMovieDTO): Promise<MovieResponseDTO> {
 		return this.movieService.createMovie(inputMovie);
 	}
 
 	@Get('/movie/:id')
 	@HttpCode(HttpStatus.OK)
+	@Roles(Role.USER, Role.ADMIN)
 	@ApiOperation({ summary: 'Get a movie by id' })
 	@ApiUUIDParam()
 	@ApiOkResponse({
@@ -65,6 +73,7 @@ export class MovieController {
 
 	@Patch('/movie/:id')
 	@HttpCode(HttpStatus.OK)
+	@Roles(Role.ADMIN)
 	@ApiOperation({ summary: 'Update a movie by id' })
 	@ApiUUIDParam()
 	@ApiOkResponse({
@@ -73,6 +82,7 @@ export class MovieController {
 	})
 	@ApiBadRequestResponse()
 	@ApiUnauthorizedResponse()
+	@ApiForbiddenResponse()
 	@ApiMovieNotFoundResponse()
 	@ApiInternalServerErrorResponse()
 	async updateMovie(
@@ -84,12 +94,14 @@ export class MovieController {
 
 	@Delete('/movie/:id')
 	@HttpCode(HttpStatus.NO_CONTENT)
+	@Roles(Role.ADMIN)
 	@ApiOperation({ summary: 'Delete a movie by id' })
 	@ApiUUIDParam()
 	@ApiOkResponse({
 		description: 'The movie has been successfully deleted.',
 	})
 	@ApiUnauthorizedResponse()
+	@ApiForbiddenResponse()
 	@ApiMovieNotFoundResponse()
 	@ApiInternalServerErrorResponse()
 	async deleteMovie(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
@@ -98,11 +110,13 @@ export class MovieController {
 
 	@Get('/movies')
 	@HttpCode(HttpStatus.OK)
+	@Roles(Role.USER, Role.ADMIN)
 	@ApiOperation({ summary: 'List all movies' })
 	@ApiOkResponse({
 		type: [MovieResponseDTO],
 		description: 'The movies have been successfully retrieved.',
 	})
+	@ApiUnauthorizedResponse()
 	@ApiInternalServerErrorResponse()
 	async listMovies(): Promise<MovieResponseDTO[]> {
 		return this.movieService.list();

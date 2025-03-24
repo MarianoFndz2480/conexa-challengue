@@ -16,7 +16,9 @@ export class AuthFacade {
 	async validateUser(payload: { sub: string }) {
 		const isValidUser = await this.userService.getByEmail(payload.sub);
 
-		if (!isValidUser) return null;
+		if (!isValidUser) {
+			throw new UnauthorizedError();
+		}
 
 		return payload;
 	}

@@ -1,15 +1,14 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiParam, ApiResponse } from '@nestjs/swagger';
 
-export const ApiUnauthorizedResponse = () => {
+export const ApiAuthTokenResponse = () => {
 	return applyDecorators(
 		ApiResponse({
-			status: 401,
-			description: 'Unauthorized',
+			status: 200,
+			description: 'Returns JWT token',
 			schema: {
 				example: {
-					message: 'Unauthorized',
-					statusCode: 401,
+					access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
 				},
 			},
 		}),
@@ -32,14 +31,30 @@ export const ApiBadRequestResponse = () => {
 	);
 };
 
-export const ApiAuthTokenResponse = () => {
+export const ApiUnauthorizedResponse = () => {
 	return applyDecorators(
 		ApiResponse({
-			status: 200,
-			description: 'Returns JWT token',
+			status: 401,
+			description: 'Unauthorized',
 			schema: {
 				example: {
-					access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+					message: 'Unauthorized',
+					statusCode: 401,
+				},
+			},
+		}),
+	);
+};
+
+export const ApiForbiddenResponse = () => {
+	return applyDecorators(
+		ApiResponse({
+			status: 403,
+			description: 'Forbidden',
+			schema: {
+				example: {
+					message: 'Forbidden resource',
+					statusCode: 403,
 				},
 			},
 		}),

@@ -30,7 +30,7 @@ export class ErrorInterceptor implements NestInterceptor {
 					throw new UnauthorizedException();
 				}
 
-				if (error instanceof MovieNotFoundError) {
+				if (error instanceof NotFoundException || error instanceof MovieNotFoundError) {
 					throw new NotFoundException();
 				}
 

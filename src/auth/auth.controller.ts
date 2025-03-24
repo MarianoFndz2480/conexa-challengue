@@ -1,15 +1,13 @@
-import { Body, ConflictException, Controller, Post, UnauthorizedException } from '@nestjs/common';
-import { AuthFacade } from './facades/auth.facade';
-import { AccessTokenDTO, CredentialsDTO } from './dtos/auth.dto';
-import { UnauthorizedError } from './errors/auth.errors';
-import { UserAlreadyExistsError } from './errors/user.errors';
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthFacade } from '@auth/facades/auth.facade';
+import { AccessTokenDTO, CredentialsDTO } from '@auth/dtos/auth.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	ApiAuthTokenResponse,
 	ApiBadRequestResponse,
 	ApiInternalServerErrorResponse,
 	ApiUnauthorizedResponse,
-} from '../decorators/api-responses.decorators';
+} from '@common/decorators/api-responses.decorators';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,13 +21,7 @@ export class AuthController {
 	@ApiInternalServerErrorResponse()
 	@Post('login')
 	async login(@Body() inputUser: CredentialsDTO): Promise<AccessTokenDTO> {
-		try {
-			const result = await this.authFacade.login(inputUser);
-			return result;
-		} catch (error) {
-			if (error instanceof UnauthorizedError) throw new UnauthorizedException();
-			throw error;
-		}
+		return this.authFacade.login(inputUser);
 	}
 
 	@ApiOperation({ summary: 'User registration' })
@@ -49,12 +41,6 @@ export class AuthController {
 	})
 	@Post('register')
 	async signup(@Body() inputUser: CredentialsDTO): Promise<AccessTokenDTO> {
-		try {
-			const result = await this.authFacade.signup(inputUser);
-			return result;
-		} catch (error) {
-			if (error instanceof UserAlreadyExistsError) throw new ConflictException();
-			throw error;
-		}
+		return this.authFacade.signup(inputUser);
 	}
 }

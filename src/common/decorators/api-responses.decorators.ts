@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 export const ApiUnauthorizedResponse = () => {
 	return applyDecorators(
@@ -55,6 +55,31 @@ export const ApiInternalServerErrorResponse = () => {
 				example: {
 					message: 'Internal server error',
 					statusCode: 500,
+				},
+			},
+		}),
+	);
+};
+
+export const ApiUUIDParam = () => {
+	return applyDecorators(
+		ApiParam({
+			name: 'id',
+			type: 'string',
+			format: 'uuid',
+			example: '2978a530-1d00-4861-9858-10dd1ab32e7e',
+		}),
+	);
+};
+
+export const ApiMovieNotFoundResponse = () => {
+	return applyDecorators(
+		ApiNotFoundResponse({
+			description: 'The movie has not been found.',
+			schema: {
+				example: {
+					message: 'Not Found',
+					statusCode: 404,
 				},
 			},
 		}),

@@ -4,6 +4,8 @@ import { MovieService } from '@movies/application/services/movie.service';
 import { ExternalMovieRepository } from '@app/movies/domain/repositories/external-movie.repository';
 import { NewMovie } from '@movies/domain/interfaces/movie.interface';
 
+const CRON_EXPRESSION = process.env.CRON_EXPRESSION || CronExpression.EVERY_DAY_AT_MIDNIGHT;
+
 @Injectable()
 export class SyncMoviesCron {
 	private readonly logger = new Logger(SyncMoviesCron.name);
@@ -13,7 +15,7 @@ export class SyncMoviesCron {
 		private readonly movieService: MovieService,
 	) {}
 
-	@Cron(CronExpression.EVERY_MINUTE)
+	@Cron(CRON_EXPRESSION)
 	async syncMovies() {
 		try {
 			this.logger.log('Starting movies synchronization...');

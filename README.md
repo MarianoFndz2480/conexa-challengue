@@ -189,4 +189,23 @@ This architecture ensures that business rules can be tested without UI, database
 - **Consistent Responses**: Standardized API responses
 - **Error Handling**: Detailed error messages and codes
 
+### ⚠️ Development Notes
+
+#### Default Admin User
+For local testing convenience, a default admin user is created via seeder:
+- Email: admin@example.com
+- Password: password
+> **Warning**: This is for development purposes only. In a production environment, default users should never be created with known credentials.
+
+#### Cron Configuration
+The SWAPI synchronization cron job is set to run every minute in the development environment for demonstration purposes. In a production environment, this should be adjusted to a more appropriate interval.
+
+```env
+# Development settings (in .env)
+CRON_EXPRESSION="* * * * *"  # Runs every minute
+
+# Recommended production settings
+# CRON_EXPRESSION="0 0 * * *"  # Runs once daily at midnight
+```
+
 

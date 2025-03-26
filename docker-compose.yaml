@@ -5,6 +5,11 @@ services:
       - '3000:3000'
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/postgres?schema=public
+      - JWT_SECRET=secret
+      - JWT_EXPIRATION_TIME=1h
+      - NODE_ENV=development
+      - SALT_ROUNDS=10
+      - CRON_EXPRESSION=*/1 * * * *
     depends_on:
       db:
         condition: service_healthy
